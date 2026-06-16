@@ -1,24 +1,32 @@
-import psrchive
 import numpy as np
 import torch.nn as nn
 import torch
 from Data.preprocess import load_data, replace_data
 import subprocess
 import os
+from ModelTraining.model import Net
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class ModelRunner:
     def __init__(self, model_path=None):
         self.model_path = model_path
+        self.model = Net()
 
     def run_model(self, input_path, output_path):
         input_data, _ = load_data(input_path)
 
-        model = torch.load(self.model_path)
-        model.eval()
+        if torch.cuda.is_available():
+            device = torch.device('cuda')
+        else:
+            device = torch.device('cpu')
+
+        state_dict = torch.load(self.model_path, map_location=device)
+        self.model.to(device)
+        self.model.load_state_dict(state_dict)
+        self.model.eval()
         with torch.no_grad():
-            output_data = model(torch.tensor(input_data).float().unsqueeze(0).unsqueeze(0)).squeeze().numpy()
+            output_data = self.model(torch.tensor(input_data).float().to(device).unsqueeze(0).unsqueeze(0)).cpu().numpy()[0][0]
 
         replace_data(output_path, output_data)
 

@@ -4,7 +4,7 @@ import subprocess
 import os
 
 def load_data(path):
-    arch = psrchive.Archive_load(path)
+    arch = psrchive.Archive.load(path)
 
     arch.dedisperse()
     arch.remove_baseline()
