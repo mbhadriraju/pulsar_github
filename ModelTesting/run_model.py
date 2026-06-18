@@ -26,7 +26,8 @@ class ModelRunner:
         self.model.load_state_dict(state_dict)
         self.model.eval()
         with torch.no_grad():
-            output_data = self.model(torch.tensor(input_data).float().to(device).unsqueeze(0).unsqueeze(0)).cpu().numpy()[0][0]
+            predicted_noise = self.model(torch.tensor(input_data).float().to(device).unsqueeze(0).unsqueeze(0)).cpu().numpy()[0][0]
+            output_data = input_data - predicted_noise
 
         replace_data(output_path, output_data)
 
