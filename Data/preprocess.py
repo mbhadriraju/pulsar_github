@@ -24,6 +24,8 @@ def replace_data(path, new_data):
         prof = subint.get_Profile(0, ichan)
         amps = prof.get_amps()
         amps[:] = new_data[ichan, :]
+    
+    arch.unload(path)
 
 
 def preprocess_individual(path, time_channels=1024, freq_channels=32, norm=True, rem_polar=True, roll=None, output_path=None):
