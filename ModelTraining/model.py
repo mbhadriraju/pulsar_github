@@ -72,11 +72,6 @@ class Net(nn.Module):
             ResNetBlock(hidden_channels),
             ResNetBlock(hidden_channels),
             ResNetBlock(hidden_channels),
-            ResNetBlock(hidden_channels),
-            ResNetBlock(hidden_channels),
-            ResNetBlock(hidden_channels),
-            ResNetBlock(hidden_channels),
-            ResNetBlock(hidden_channels),
         )
 
         self.exit = nn.Conv2d(hidden_channels, in_channels, 3, padding=1, padding_mode="circular")

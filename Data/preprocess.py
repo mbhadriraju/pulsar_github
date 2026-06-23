@@ -15,7 +15,10 @@ def load_data(path):
 
 
 def replace_data(path, new_data):
-    arch = load_data(path)[1]
+    arch = psrchive.Archive.load(path)
+
+    arch.dedisperse()
+    arch.remove_baseline()
 
     subint = arch.get_Integration(0)
     nchan = subint.get_nchan()
